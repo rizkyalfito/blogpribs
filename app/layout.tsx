@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Blogs Pribs by Radenfito",
   description: "Made with Next.js 16, TypeScript, and Tailwind CSS",
+  icons: {
+    icon: "/bp.png",
+  },
 };
 
 export default function RootLayout({
