@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase"
-import { BlogCard } from "./blog-card"  // ← ganti import
+import { BlogCard } from "./blog-card"
 import { Blog } from "@/types/blog"
 
 export async function BlogList() {
@@ -9,25 +9,25 @@ export async function BlogList() {
     .order('created_at', { ascending: false })
 
   const items = blogs?.map((blog: Blog) => ({
-  title: blog.title,
-  description: blog.content_description || '',
-  url: `/blog/${blog.id}`,
-  image_url: blog.image_url 
-})) || []
+    title: blog.title,
+    description: blog.content_description || '',
+    url: `/blog/${blog.id}`,
+    image_url: blog.image_url,
+    category: blog.category
+  })) || []
+
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div className="text-center py-20 text-muted-foreground">Error loading articles</div>
   }
 
   if (!blogs || blogs.length === 0) {
-    return <div>No Articles found</div>
+    return <div className="text-center py-20 text-muted-foreground">No articles yet</div>
   }
 
   return (
-    <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {items.map((item) => (
-        <div key={item.url} className="break-inside-avoid">
-          <BlogCard {...item} />
-        </div>
+        <BlogCard key={item.url} {...item} />
       ))}
     </div>
   )

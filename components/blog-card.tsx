@@ -1,32 +1,44 @@
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription } from "./ui/card"
+import Image from "next/image"
+import { Card } from "./ui/card"
 
 interface BlogCardProps {
   title: string
   description: string
   url: string
   image_url?: string | null
+  category?: string | null
 }
 
-export function BlogCard({ title, description, url, image_url }: BlogCardProps) {
+export function BlogCard({ title, description, url, image_url, category }: BlogCardProps) {
   return (
-    <Link href={url} className="block">
-      <Card className="hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer h-full overflow-hidden flex flex-col">
+    <Link href={url} className="group block h-full">
+      <Card className="overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col">
         {image_url && (
-          <div className="w-full flex-shrink-0">
-            <img
+          <div className="relative w-full h-52 flex-shrink-0 overflow-hidden bg-muted">
+            <Image
               src={image_url}
               alt={title}
-              className="w-full h-32 object-cover rounded-lg shadow-md"
+              fill
+              priority={false}
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         )}
-        <CardHeader className="flex-grow flex flex-col">
-          <CardTitle className="text-xl line-clamp-2">{title}</CardTitle>
-          <CardDescription className="line-clamp-3 mt-2 text-sm">
+        <div className="p-6 flex-1">
+          {category && (
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              {category}
+            </span>
+          )}
+          <h3 className="text-xl font-semibold mt-2 line-clamp-2 group-hover:text-primary transition-colors">
+            {title}
+          </h3>
+          <p className="text-muted-foreground mt-3 line-clamp-3 text-sm leading-relaxed">
             {description}
-          </CardDescription>
-        </CardHeader>
+          </p>
+        </div>
       </Card>
     </Link>
   )

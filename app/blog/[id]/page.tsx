@@ -1,6 +1,8 @@
 import { supabase } from "@/lib/supabase"
 import { notFound } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 export default async function BlogDetail({
   params,
@@ -20,48 +22,68 @@ export default async function BlogDetail({
   }
 
   return (
-    <article className="container mx-auto max-w-4xl px-4 py-8">
-      {blog.image_url && (
-        <div className="mb-8 flex justify-center">
-          <Image
-            src={blog.image_url}
-            alt={blog.title}
-            width={500}
-            height={300}
-            className="max-w-md h-auto rounded-lg object-fill shadow-md"
-          />
-        </div>
-      )}
-
-      <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
-
-      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-8">
-        <time dateTime={blog.created_at}>
-          {new Date(blog.created_at).toLocaleDateString('id-ID', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </time>
-      </div>
-
-      <div className="prose prose-lg max-w-none dark:prose-invert">
-        <p className="whitespace-pre-wrap">
-          {blog.content_description}
-        </p>
-      </div>
-
-      {blog.file_url && (
-        <div className="mt-8 p-4 border rounded-lg">
-          <a 
-            href={blog.file_url} 
-            download
-            className="text-primary hover:underline"
+    <div className="w-full">
+      <div className="border-b">
+        <div className="container mx-auto px-6 py-6">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            📎 Download attachment
-          </a>
+            <ArrowLeft className="w-4 h-4" />
+            Back to articles
+          </Link>
         </div>
-      )}
-    </article>
+      </div>
+
+      <article className="container mx-auto max-w-3xl px-6 py-12">
+        {blog.category && (
+          <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            {blog.category}
+          </span>
+        )}
+        
+        <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">{blog.title}</h1>
+
+        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-10 pb-10 border-b">
+          <time dateTime={blog.created_at}>
+            {new Date(blog.created_at).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </time>
+        </div>
+
+        {blog.image_url && (
+          <div className="relative w-full h-[400px] mb-10 rounded-lg overflow-hidden">
+            <Image
+              src={blog.image_url}
+              alt={blog.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
+
+        <div className="prose prose-lg max-w-none dark:prose-invert">
+          <p className="text-lg leading-relaxed whitespace-pre-wrap">
+            {blog.content_description}
+          </p>
+        </div>
+
+        {blog.file_url && (
+          <div className="mt-12 p-6 border rounded-lg bg-muted/50">
+            <a 
+              href={blog.file_url} 
+              download
+              className="inline-flex items-center gap-2 font-medium hover:text-primary transition-colors"
+            >
+              📎 Download attachment
+            </a>
+          </div>
+        )}
+      </article>
+    </div>
   )
 }
