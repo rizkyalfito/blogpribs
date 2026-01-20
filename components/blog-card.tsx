@@ -15,7 +15,7 @@ export function BlogCard({ title, description, url, image_url, category }: BlogC
     <Link href={url} className="group block h-full">
       <Card className="overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col">
         {image_url && (
-          <div className="relative w-full h-52 flex-shrink-0 overflow-hidden bg-muted">
+          <div className="relative w-full h-52 shrink-0 overflow-hidden bg-muted">
             <Image
               src={image_url}
               alt={title}
