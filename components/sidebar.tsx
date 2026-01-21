@@ -22,7 +22,7 @@ export function AppSidebar() {
           <div className="text-center">
             <h2 className="text-2xl font-bold">Rizky Alfito Hadi</h2>
             <p className="text-muted-foreground text-sm mt-1">
-              Fullstack Web Development
+              Fullstack Web Development Enthusiast
             </p>
             <p className="text-muted-foreground text-xs mt-2">
               📍 Bekasi, Jawa Barat, Indonesia
