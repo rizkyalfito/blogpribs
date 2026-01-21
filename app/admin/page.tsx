@@ -23,30 +23,36 @@ async function BlogsList() {
     <div className="grid gap-4">
       {blogs.map((blog) => (
         <Card key={blog.id}>
-          {blog.image_url && (
-            <div className="relative w-full h-48 sm:h-56 overflow-hidden">
-              <Image
-                src={blog.image_url}
-                alt={blog.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-          )}
-          <CardHeader className="flex flex-col gap-3 sm:flex-row sm:gap-4 sm:items-start sm:justify-between space-y-0">
-            <div className="flex-1 min-w-0">
-              <CardTitle className="text-lg sm:text-xl wrap-break-words">{blog.title}</CardTitle>
-              <CardDescription className="line-clamp-1 mt-1 sm:mt-2 truncate text-xs sm:text-sm">
-                {blog.content_description}
-              </CardDescription>
-            </div>
-            <div className="flex gap-2 shrink-0 w-full sm:w-auto">
-              <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
-                <Link href={`/admin/${blog.id}/edit`}>
-                  <Pencil className="w-4 h-4" />
-                </Link>
-              </Button>
-              <DeleteBlogButton id={blog.id} />
+          <CardHeader className="p-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              {blog.image_url && (
+                <div className="relative w-full h-48 sm:w-28 sm:h-28 shrink-0 rounded-md overflow-hidden">
+                  <Image
+                    src={blog.image_url}
+                    alt={blog.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div className="flex-1 min-w-0 flex flex-col gap-2">
+                <CardTitle className="wrap-break-words text-xl leading-tight">
+                  {blog.title}
+                </CardTitle>
+                <CardDescription className="line-clamp-2 text-sm">
+                  {blog.content_description}
+                </CardDescription>
+              </div>
+              <div className="flex sm:flex-col gap-2 shrink-0 items-start">
+                <Button asChild variant="outline" size="icon" className="h-9 w-9 shrink-0 cursor-pointer">
+                  <Link href={`/admin/${blog.id}/edit`}>
+                    <Pencil className="w-4 h-4" />
+                  </Link>
+                </Button>
+                <div className="h-9 w-9 shrink-0">
+                  <DeleteBlogButton id={blog.id} />
+                </div>
+              </div>
             </div>
           </CardHeader>
         </Card>
@@ -60,9 +66,15 @@ function BlogsListSkeleton() {
     <div className="grid gap-4">
       {[1, 2, 3].map((i) => (
         <Card key={i}>
-          <CardHeader>
-            <Skeleton className="h-6 w-3/4" />
-            <Skeleton className="h-4 w-full mt-2" />
+          <CardHeader className="p-4">
+            <div className="flex gap-4">
+              <Skeleton className="w-28 h-28 rounded-md shrink-0" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-2/3" />
+              </div>
+            </div>
           </CardHeader>
         </Card>
       ))}
@@ -72,7 +84,7 @@ function BlogsListSkeleton() {
 
 export default function AdminPage() {
   return (
-    <div>
+    <div className="container max-w-4xl mx-auto px-4 py-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center mb-6">
         <h2 className="text-2xl font-semibold">Semua Postingan</h2>
         <Button asChild className="w-full sm:w-auto">
