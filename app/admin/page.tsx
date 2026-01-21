@@ -16,16 +16,16 @@ async function BlogsList() {
     .order('created_at', { ascending: false })
 
   if (!blogs || blogs.length === 0) {
-    return <p className="text-muted-foreground text-center py-10">No posts yet</p>
+    return <p className="text-muted-foreground text-center py-10">Beloman ada postingan</p>
   }
 
   return (
     <div className="grid gap-4">
       {blogs.map((blog) => (
         <Card key={blog.id}>
-          <CardHeader className="flex flex-row gap-4 items-start justify-between space-y-0">
+          <CardHeader className="flex flex-col gap-3 sm:flex-row sm:gap-4 sm:items-start sm:justify-between space-y-0">
             {blog.image_url && (
-              <div className="relative w-24 h-24 flex-shrink-0 rounded-md overflow-hidden">
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 rounded-md overflow-hidden">
                 <Image
                   src={blog.image_url}
                   alt={blog.title}
@@ -35,13 +35,13 @@ async function BlogsList() {
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <CardTitle className="break-words">{blog.title}</CardTitle>
-              <CardDescription className="line-clamp-1 mt-2 truncate">
+              <CardTitle className="text-lg sm:text-xl break-words">{blog.title}</CardTitle>
+              <CardDescription className="line-clamp-1 mt-1 sm:mt-2 truncate text-xs sm:text-sm">
                 {blog.content_description}
               </CardDescription>
             </div>
-            <div className="flex gap-2 flex-shrink-0">
-              <Button asChild variant="outline" size="sm">
+            <div className="flex gap-2 flex-shrink-0 w-full sm:w-auto">
+              <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
                 <Link href={`/admin/${blog.id}/edit`}>
                   <Pencil className="w-4 h-4" />
                 </Link>

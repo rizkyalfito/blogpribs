@@ -21,7 +21,7 @@ export async function BlogList() {
   }
 
   if (!blogs || blogs.length === 0) {
-    return <div className="text-center py-20 text-muted-foreground">No articles yet</div>
+    return <div className="text-center py-20 text-muted-foreground">Beloman ada postingan</div>
   }
 
   return (

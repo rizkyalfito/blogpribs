@@ -1,6 +1,6 @@
 import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar"
 import Image from "next/image"
-import { GithubIcon, LinkedinIcon, GlobeIcon, BookIcon, BookImageIcon, BookUp2Icon, BookCheck } from "lucide-react"
+import { GithubIcon, LinkedinIcon, GlobeIcon, BookCheck } from "lucide-react"
 import Link from "next/link"
 
 export function AppSidebar() {
