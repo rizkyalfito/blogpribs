@@ -17,7 +17,7 @@ export default function Home({
             <h1 className="text-2xl sm:text-3xl font-bold">Tulisan Terkini</h1>
             <p className="text-muted-foreground text-sm sm:text-base">Pemikiran, cerita dan ide</p>
           </div>
-          <form action="/admin" method="post" className="w-full sm:w-auto">
+          <form action="/login" method="get" className="w-full sm:w-auto">
             <Button type="submit" variant="outline" className="w-full sm:w-auto cursor-pointer">Admin Panel</Button>
           </form>
         </div>
