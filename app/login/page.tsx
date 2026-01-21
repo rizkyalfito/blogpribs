@@ -18,30 +18,43 @@ export default function LoginPage() {
     setLoading(true)
     setError("")
 
-    const formData = new FormData(e.currentTarget)
-    const email = formData.get("email") as string
-    const password = formData.get("password") as string
+    try {
+      const formData = new FormData(e.currentTarget)
+      const email = formData.get("email") as string
+      const password = formData.get("password") as string
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (error) {
-      let errorMessage = error.message
-      if (errorMessage.includes("Invalid login credentials")) {
-        errorMessage = "Email atau password salah"
-      } else if (errorMessage.includes("Email not confirmed")) {
-        errorMessage = "Email belum dikonfirmasi"
-      } else if (errorMessage.includes("User not found")) {
-        errorMessage = "Pengguna tidak ditemukan"
+      // Basic validation
+      if (!email || !password) {
+        setError("Email dan password harus diisi")
+        setLoading(false)
+        return
       }
-      setError(errorMessage)
-    } else {
-      router.push("/admin")
-      router.refresh()
+
+      const { error, data } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (error) {
+        let errorMessage = error.message
+        if (errorMessage.includes("Invalid login credentials")) {
+          errorMessage = "Email atau password salah"
+        } else if (errorMessage.includes("Email not confirmed")) {
+          errorMessage = "Email belum dikonfirmasi"
+        } else if (errorMessage.includes("User not found")) {
+          errorMessage = "Pengguna tidak ditemukan"
+        }
+        setError(errorMessage)
+      } else if (data?.user) {
+        router.push("/admin")
+        router.refresh()
+      }
+    } catch (err) {
+      setError("Terjadi kesalahan. Coba lagi")
+      console.error("[Login Error]", err)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
@@ -60,6 +73,7 @@ export default function LoginPage() {
                 type="email"
                 required
                 placeholder="admin@contoh.com"
+                disabled={loading}
               />
             </div>
 
@@ -70,11 +84,14 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 required
+                disabled={loading}
               />
             </div>
 
             {error && (
-              <div className="text-sm text-red-500">{error}</div>
+              <div className="rounded bg-red-50 p-3 text-sm text-red-700 border border-red-200">
+                {error}
+              </div>
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>

@@ -24,21 +24,41 @@ export function DeleteBlogButton({ id }: { id: string }) {
 
   async function handleDelete() {
     setLoading(true)
-    const { error } = await supabase.from("blogs").delete().eq("id", id)
+    
+    try {
+      // Verify user is authenticated
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
 
-    if (error) {
-      toast.error("Failed to delete post")
-    } else {
-      toast.success("Post deleted successfully")
-      router.refresh()
+      if (!user) {
+        toast.error("Anda harus login terlebih dahulu")
+        router.push("/login")
+        return
+      }
+
+      // Perform delete operation
+      const { error } = await supabase.from("blogs").delete().eq("id", id)
+
+      if (error) {
+        toast.error("Gagal menghapus postingan")
+        console.error("[Delete Blog Error]", error)
+      } else {
+        toast.success("Postingan berhasil dihapus")
+        router.refresh()
+      }
+    } catch (error) {
+      toast.error("Terjadi kesalahan")
+      console.error("[Delete Blog Exception]", error)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm" className="flex-1 sm:flex-none">
+        <Button variant="destructive" size="sm" className="flex-1 sm:flex-none" disabled={loading}>
           <Trash2 className="w-4 h-4" />
         </Button>
       </AlertDialogTrigger>
