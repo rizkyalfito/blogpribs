@@ -9,7 +9,7 @@ export function useFormValidation<T>(schema: ZodSchema) {
 
     if (!validation.success) {
       const fieldErrors: Record<string, string> = {}
-      validation.error.errors.forEach((err) => {
+      validation.error.issues.forEach((err) => {
         const path = err.path[0] as string
         fieldErrors[path] = err.message
       })
