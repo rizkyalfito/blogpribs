@@ -38,7 +38,7 @@ export function DeleteBlogButton({ id }: { id: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm">
+        <Button variant="destructive" size="sm" className="flex-1 sm:flex-none">
           <Trash2 className="w-4 h-4" />
         </Button>
       </AlertDialogTrigger>

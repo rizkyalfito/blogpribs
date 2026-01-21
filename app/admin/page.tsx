@@ -23,24 +23,24 @@ async function BlogsList() {
     <div className="grid gap-4">
       {blogs.map((blog) => (
         <Card key={blog.id}>
+          {blog.image_url && (
+            <div className="relative w-full h-48 sm:h-56 overflow-hidden">
+              <Image
+                src={blog.image_url}
+                alt={blog.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
           <CardHeader className="flex flex-col gap-3 sm:flex-row sm:gap-4 sm:items-start sm:justify-between space-y-0">
-            {blog.image_url && (
-              <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 rounded-md overflow-hidden">
-                <Image
-                  src={blog.image_url}
-                  alt={blog.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
             <div className="flex-1 min-w-0">
-              <CardTitle className="text-lg sm:text-xl break-words">{blog.title}</CardTitle>
+              <CardTitle className="text-lg sm:text-xl wrap-break-words">{blog.title}</CardTitle>
               <CardDescription className="line-clamp-1 mt-1 sm:mt-2 truncate text-xs sm:text-sm">
                 {blog.content_description}
               </CardDescription>
             </div>
-            <div className="flex gap-2 flex-shrink-0 w-full sm:w-auto">
+            <div className="flex gap-2 shrink-0 w-full sm:w-auto">
               <Button asChild variant="outline" size="sm" className="flex-1 sm:flex-none">
                 <Link href={`/admin/${blog.id}/edit`}>
                   <Pencil className="w-4 h-4" />
